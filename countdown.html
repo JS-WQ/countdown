@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>倒计时</title>
+    <style>
+        #box{
+            margin-top: 30px;
+            max-width: 450px; 
+            height: 450px;          
+            margin-left: auto;
+            margin-right: auto;
+            background: #2d4157;
+            text-align: center;
+        }
+        #timeleft{
+            color: #ffffff;
+            font-size: 74px;
+            display: block;
+            padding-top: 102px;
+        }
+        #tag{
+            padding: 0px;
+            margin: 0px;
+            display: flex;
+            justify-content: space-between;
+            max-width: 234px;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+        #tag li{
+            list-style: none;
+            color: #3e5a79;
+            padding-right: 55px;
+        }
+        #start{
+            display: block;
+            cursor: pointer;
+            max-width: 280px;
+            font-size: 25px;
+            border: 2px solid #33cdae;
+            border-radius: 32px;
+            line-height: 40px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #fcfcfc;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        #sele{
+            max-width: 200px;
+            height: 35px;
+            margin-left: auto;
+            margin-right: auto;
+            border:2px solid yellow;
+            border-radius: 7px;
+            position: relative;
+        }
+        #sele #ss{
+            position: relative;
+            z-index: 1;
+            min-width: 200px;
+            height: 35px;
+            opacity: 0;
+        }
+        #sele #selName{
+            position: absolute;
+            top: 0;
+            left: 20px;
+            line-height: 35px;
+            font-size: 25px;
+            color: #fcfcfc;
+            
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <span id="timeleft">10:00:00</span>
+        <ul id="tag">
+            <li>HOUR</li>
+            <li>MINUTES</li>
+            <li>SECONDS</li>
+        </ul>
+        <span id="start">start</span>
+        <div id="sele">
+            <select id="ss">
+                <option value="1">1:00:00</option>
+                <option value="2">2:00:00</option>
+                <option value="3">3:00:00</option>
+                <option value="5">5:00:00</option>
+                <option value="10">10:00:00</option>
+            </select>
+            <div id="selName">select time</div>
+        </div>
+    </div>   
+    <script>
+        var Obtn=document.querySelector('#start')
+        var choice =document.getElementById('ss')
+        var tim = document.getElementById('timeleft')
+        var textOp = choice.options[choice.selectedIndex].text
+        tim.innerHTML=choice.options[choice.selectedIndex].text
+        var Opt = document.getElementsByTagName('option')
+        
+        var time=null
+        var prun=true
+        choice.addEventListener('click',function(){
+            //tim.innerHTML=choice.options[choice.selectedIndex].text;
+            
+        })
+        choice.onchange=function(){
+            clearInterval(time)
+            tim.innerHTML=choice.options[choice.selectedIndex].text;
+            Obtn.style.background="transparent"
+            prun = true
+        }
+        Obtn.addEventListener('click',function(){   
+            var total = (choice.value)*3600 //秒 ,每小时3600s   
+              
+            if(prun == false){
+                prun = true
+                Obtn.style.background="transparent"
+                clearInterval(time) 
+                }else{             
+                    time = setInterval(function(){
+                        if(total <= 0 ){
+                            clearInterval(time) 
+                        }
+                        Obtn.style.background="#33cdae"
+                        total-=1
+                        prun = false
+                        var hour = parseInt(total/3600,10)
+                        var minute = parseInt((total - hour * 3600)/60)
+                        var second = total - hour *3600 - minute*60
+
+                        timeleft.innerText = doub(hour) + ':' + doub(minute) + ':'+ doub(second)
+
+                        function doub(n){
+                            if(n<10){
+                                return '0'+n
+                            }else{
+                                return '' +n
+                            }
+                        }
+                    },1000)
+                } 
+        })
+    </script>
+</body>
+</html>
